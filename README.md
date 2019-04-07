@@ -1,4 +1,3 @@
-# CMU 15-445 Database Systems
 # Sample SQLite Project in place of UIUC CS 411
 
 
