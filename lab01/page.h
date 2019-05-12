@@ -1,8 +1,8 @@
 /**
  * page.h
  *
- * Wrapper around actual data page in main memory and also contains bookkeeping
- * information used by buffer pool manager like pin_count/dirty_flag/page_id.
+ * Wrapper around actual data page in main memory and contains bookkeeping
+ * information used by buffer pool manager such as pin_count/dirty_flag/page_id.
  * Use page as a basic unit within the database system
  */
 
