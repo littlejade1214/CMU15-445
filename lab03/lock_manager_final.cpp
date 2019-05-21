@@ -40,7 +40,6 @@ bool LockManager::LockShared(Transaction *txn, const RID &rid)
     lock_table_[rid].list.push_back(req);
   }
 
-  // 等待条件变量
   Request *cur = nullptr;
   cond.wait(latch, [&]() -> bool {
     bool all_shared = true, all_granted = true;
@@ -88,21 +87,18 @@ bool LockManager::LockExclusive(Transaction *txn, const RID &rid)
   }
   else
   {
-    // 如果该请求事务不比等待链表中最老的还老，就die
     if (txn->GetTransactionId() > lock_table_[rid].oldest)
     {
       txn->SetState(TransactionState::ABORTED);
       return false;
     }
 
-    // 否则就wait
     lock_table_[rid].oldest = txn->GetTransactionId();
     lock_table_[rid].list.push_back(req);
   }
 
   ++lock_table_[rid].exclusive_cnt;
 
-  // 排它锁只有在等待队列中的第一个才能获得锁
   cond.wait(latch, [&]() -> bool {
     return lock_table_[rid].list.front().txn_id == txn->GetTransactionId();
   });
@@ -162,7 +158,6 @@ bool LockManager::LockUpgrade(Transaction *txn, const RID &rid)
   lock_table_[rid].list.insert(tgt, req);
   lock_table_[rid].list.erase(src);
 
-  // 等地啊条件变量
   cond.wait(latch, [&]() -> bool {
     return lock_table_[rid].list.front().txn_id == txn->GetTransactionId();
   });
