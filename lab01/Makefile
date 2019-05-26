@@ -14,5 +14,6 @@ INC := -I include -I /usr/local/include
 ## $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	## $(CC) $(CCFLAGS) -c $< -o $@
 
-## config.o: common/config.cpp include/common/config.h 
-	## $(CC) $(CCFLAGS) -c common/config.cpp
+## extendible_hash_test.o: extendible_hash_test.cpp extendible_hash.o
+	## $(CC) $(CCFLAGS) -c extendible_hash_test.cpp
+
