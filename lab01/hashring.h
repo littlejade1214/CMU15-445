@@ -11,11 +11,15 @@ public:
 
     size_t add(const Node& node);
     void remove(const Node& node);
-    const Node& get(const Data& data);
+    const Node& get(const Data& data) const;
 
 private:
     NodeMap hashRing;
     const unsigned int replicas;
     const Hash hashFunction;
-}
+};
+
+#include "hashring.cpp"
+
+#endif
 
